@@ -1,0 +1,7 @@
+{
+  "name": "storecart",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
