@@ -15,7 +15,7 @@ const ListItemsPage: React.FC = () => {
     dispatch(fetchProducts({page}));
   }, [dispatch]);
 
-  const loading = useSelector((state: RootState) => state.products.loading);
+  const loading = useSelector((state: RootState) => state.products.isFetching);
 
   const products = useSelector((state: RootState) => state.products.products);
 
@@ -42,7 +42,7 @@ const ListItemsPage: React.FC = () => {
         )}
         {products && <>
           <ListItemsContainer products={products} />
-          <IonButton onClick={() => pageHandler() }>Cargar más</IonButton>
+          <IonButton color={'light'} className="center-button" onClick={() => pageHandler() }>Cargar más</IonButton>
         </>}
       </IonContent>
     </IonPage>

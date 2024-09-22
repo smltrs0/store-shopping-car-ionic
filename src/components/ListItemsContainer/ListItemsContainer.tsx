@@ -33,7 +33,7 @@ const ListItemsContainer: React.FC<ContainerProps> = ({ products }) => {
   return (
     <div className="container">
       {Object.values(products).map((product) => (
-        <IonCard key={product.id}>
+        <IonCard key={product.id} className="card-item">
           <Carousel images={product.images} showButtons={true} />
           <IonCardHeader>
             <IonCardTitle>{product.title}</IonCardTitle>
