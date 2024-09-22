@@ -1,18 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../ports/productService';
 
 interface ProductsState {
-  products: Product[];
-  loading: boolean;
+  products: any[];
+  isFetching: boolean;
   error: string | null;
-  textToast: string;
 }
 
 const initialState: ProductsState = {
   products: [],
-  loading: false,
+  isFetching: false,
   error: null,
-  textToast: ''
 };
 
 const productsSlice = createSlice({
@@ -20,18 +17,18 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     fetchProductsStart(state) {
-      state.loading = true;
+      state.isFetching = true;
       state.error = null;
     },
-    fetchProductsSuccess(state, action: PayloadAction<Product[]>) {
-      state.loading = false;
-      state.products = [...state.products, ...action.payload];
+    fetchProductsSuccess(state, action: PayloadAction<any[]>) {
+      state.isFetching = false;
+      state.products = action.payload;
     },
     fetchProductsFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
+      state.isFetching = false;
       state.error = action.payload;
     },
-  }
+  },
 });
 
 export const { fetchProductsStart, fetchProductsSuccess, fetchProductsFailure } = productsSlice.actions;
