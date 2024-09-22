@@ -1,0 +1,14 @@
+.filter-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .filter-item {
+    margin-right: 10px;
+  }
+  
+  .reset-button {
+    margin-top: 10px;
+    text-align: center;
+  }
