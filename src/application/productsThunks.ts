@@ -2,8 +2,8 @@ import { AppDispatch } from '../store';  // Asume que tienes un tipo para AppDis
 import { fetchProductsStart, fetchProductsSuccess, fetchProductsFailure } from '../domain/productsSlice';
 import { ApiProductService } from '../adapters/apiProductService';
 
-export const fetchProducts = () => async (dispatch: AppDispatch) => {
-  const productService = new ApiProductService('https://api.escuelajs.co/api/v1/products?limit=10&offset=1');
+export const fetchProducts = ({ page }: { page: number }) => async (dispatch: AppDispatch) => {
+  const productService = new ApiProductService('https://api.escuelajs.co/api/v1/products?limit=10&offset='+page);
 
   dispatch(fetchProductsStart());
   

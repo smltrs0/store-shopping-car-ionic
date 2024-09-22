@@ -25,7 +25,7 @@ const productsSlice = createSlice({
     },
     fetchProductsSuccess(state, action: PayloadAction<Product[]>) {
       state.loading = false;
-      state.products = action.payload;
+      state.products = [...state.products, ...action.payload];
     },
     fetchProductsFailure(state, action: PayloadAction<string>) {
       state.loading = false;

@@ -1,32 +1,29 @@
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonButton,
-  IonLoading,
-} from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonLoading, IonButton, } from "@ionic/react";
 import ListItemsContainer from "../../components/ListItemsContainer/ListItemsContainer";
 import "./ListItemsPage.css";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store"; // Ajusta la ruta de importación según la estructura de tu proyecto
-import { useEffect } from "react";
+import { AppDispatch, RootState } from "../../store";
+import { useEffect, useState } from "react";
 import { fetchProducts } from "../../application/productsThunks";
 
 const ListItemsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [ page, setPage ] = useState(1);
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProducts({page}));
   }, [dispatch]);
 
   const loading = useSelector((state: RootState) => state.products.loading);
-  // const loading = true; // Cambia esta línea por la siguiente
 
   const products = useSelector((state: RootState) => state.products.products);
 
+  const pageHandler = () => {
+    setPage(page + 1);
+    dispatch(fetchProducts({page}));
+  }
+  
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -43,7 +40,10 @@ const ListItemsPage: React.FC = () => {
             message={'Cargando...'}
           />
         )}
-        {products && <ListItemsContainer products={products} />}
+        {products && <>
+          <ListItemsContainer products={products} />
+          <IonButton onClick={() => pageHandler() }>Cargar más</IonButton>
+        </>}
       </IonContent>
     </IonPage>
   );
