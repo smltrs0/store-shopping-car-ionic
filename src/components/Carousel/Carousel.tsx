@@ -51,6 +51,7 @@ const Carousel: React.FC<CarouselProps> = ({ images, showButtons }) => {
         src={images[currentIndex]}
         alt={`Slide ${currentIndex}`}
         className="carousel-image"
+        loading="lazy"
       />
       {showButtons && (
         <button onClick={nextImage} className="carousel-button">
