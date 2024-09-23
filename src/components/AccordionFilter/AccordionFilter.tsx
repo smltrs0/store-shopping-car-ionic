@@ -10,7 +10,11 @@ import {
 } from "@ionic/react";
 import './AccordionFilter.css';
 
-const AccordionFilter: React.FC = () => {
+interface AccordionFilterProps {
+  onFilterChange: (filters: { nameOrder: string; dateOrder: string; priceOrder: string }) => void;
+}
+
+const AccordionFilter: React.FC<AccordionFilterProps> = ({ onFilterChange }) => {
   const [selectedNameOrder, setSelectedNameOrder] = useState<string>("");
   const [selectedDateOrder, setSelectedDateOrder] = useState<string>("");
   const [selectedPriceOrder, setSelectedPriceOrder] = useState<string>("");
@@ -19,6 +23,15 @@ const AccordionFilter: React.FC = () => {
     setSelectedNameOrder("");
     setSelectedDateOrder("");
     setSelectedPriceOrder("");
+    onFilterChange({ nameOrder: "", dateOrder: "", priceOrder: "" });
+  };
+
+  const handleFilterChange = () => {
+    onFilterChange({
+      nameOrder: selectedNameOrder,
+      dateOrder: selectedDateOrder,
+      priceOrder: selectedPriceOrder,
+    });
   };
 
   return (
@@ -34,7 +47,7 @@ const AccordionFilter: React.FC = () => {
               value={selectedNameOrder}
               onIonChange={(e) => {
                 setSelectedNameOrder(e.detail.value);
-                console.log("Nombre seleccionado:", e.detail.value);
+                handleFilterChange();
               }}
             >
               <IonSelectOption value="">Seleccione</IonSelectOption>
@@ -48,7 +61,7 @@ const AccordionFilter: React.FC = () => {
               value={selectedDateOrder}
               onIonChange={(e) => {
                 setSelectedDateOrder(e.detail.value);
-                console.log("Fecha seleccionada:", e.detail.value);
+                handleFilterChange();
               }}
             >
               <IonSelectOption value="">Seleccione</IonSelectOption>
@@ -62,7 +75,7 @@ const AccordionFilter: React.FC = () => {
               value={selectedPriceOrder}
               onIonChange={(e) => {
                 setSelectedPriceOrder(e.detail.value);
-                console.log("Precio seleccionado:", e.detail.value);
+                handleFilterChange();
               }}
             >
               <IonSelectOption value="">Seleccione</IonSelectOption>

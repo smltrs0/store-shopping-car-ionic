@@ -28,7 +28,8 @@ const productsSlice = createSlice({
         state.textToast = 'Este producto ya está en tu lista de deseos';
         state.statusToast = 'secondary';
       } else {
-        state.products.push(action.payload);
+        let product = { ...action.payload, createdAt: new Date().toISOString() };
+        state.products.push(product);
         state.textToast = 'Producto añadido a tu lista de deseos';
       }
     },

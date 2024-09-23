@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonText, IonThumbnail, IonButton, IonIcon } from "@ionic/react";
 import AccordionFilter from "../AccordionFilter/AccordionFilter";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,29 +10,57 @@ import { trash } from "ionicons/icons";
 
 const ShoppingCart: React.FC = () => {
   const cartItems = useSelector((state: RootState) => state.shoppingCard.products);
-  
   const dispatch = useDispatch<AppDispatch>();
-  const sortedCartItems = cartItems;
+
+  const [filters, setFilters] = useState({ nameOrder: "", dateOrder: "", priceOrder: "" });
+  const [sortedCartItems, setSortedCartItems] = useState<Product[]>([]);
 
   const deleteHandler = (item: Product) => dispatch(removeProduct(item.id));
+
+  const applyFilters = (items: Product[]) => {
+    let filteredItems = [...items];
+
+    if (filters.nameOrder) {
+      filteredItems.sort((a, b) => 
+        filters.nameOrder === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
+      );
+    }
+
+    if (filters.dateOrder) {
+      filteredItems.sort((a, b) => 
+        filters.dateOrder === "asc" ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime() : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    }
+
+    if (filters.priceOrder) {
+      filteredItems.sort((a, b) => 
+        filters.priceOrder === "asc" ? a.price - b.price : b.price - a.price
+      );
+    }
+
+    return filteredItems;
+  };
+
+  useEffect(() => {
+    setSortedCartItems(applyFilters(cartItems));
+  }, [cartItems, filters]);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle></IonTitle>
+          <IonTitle>Carrito de Compras</IonTitle>
         </IonToolbar>
       </IonHeader>
 
       <IonContent className="ion-padding">
         {sortedCartItems.length === 0 ? (
           <IonText>
-            Tu lista de deseados esta vacio, ve al panel de productos para
-            agregar productos
+            Tu lista de deseados está vacía, ve al panel de productos para agregar productos
           </IonText>
         ) : (
           <>
-            <AccordionFilter />
+            <AccordionFilter onFilterChange={setFilters} />
             <IonList>
               {sortedCartItems.map((item) => (
                 <IonItem key={item.id}>
@@ -49,7 +77,7 @@ const ShoppingCart: React.FC = () => {
                     slot="end"
                     onClick={() => deleteHandler(item)}
                   >
-                    <IonIcon icon={ trash} />
+                    <IonIcon icon={trash} />
                     Eliminar
                   </IonButton>
                 </IonItem>

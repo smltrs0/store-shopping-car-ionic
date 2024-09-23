@@ -4,6 +4,7 @@ export interface Product {
   description: string;
   images: string[];
   price: number;
+  createdAt?: string;
 }
 
 export abstract class ProductService {
