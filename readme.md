@@ -1,5 +1,5 @@
 
-** Aplicación react e ionic**
+**Aplicación react e ionic**
 
 Para ejecutar es necesario tener instalado node.js y npm.
 
